@@ -69,7 +69,41 @@ This app uses AASM to handle various states for orders. Each order can transitio
    - **Update an Order**: `PUT /orders/:id`
    - **Delete an Order**: `DELETE /orders/:id`
 
-3. **Order State Transitions**: Use the provided endpoints for state transitions in the order lifecycle.
+3. **Order State Transitions**:
+To update an order's state, make a PUT request to the /orders/:id endpoint with the desired status parameter in the body. Ensure the request includes a valid JWT in the Authorization header.
+
+cURL Example
+
+```bash
+curl -X PUT http://localhost:3000/orders/1 \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer <your-hardcoded-token>" \
+-d '{
+  "order": {
+    "product_name": "test",
+    "quantity": 2,
+    "price": 99.99,
+    "status": "pending_payment"
+  }
+}'
+```
+
+Expected Response
+A successful response should include the updated order details and the new status:
+
+```json
+{
+  "id": 1,
+  "product_name": "test",
+  "quantity": 2,
+  "price": 99.99,
+  "status": "authorized",
+  "created_at": "2024-11-11T12:00:00Z",
+  "updated_at": "2024-11-11T12:05:00Z"
+}
+```
+
+Status Transitions: Only valid transitions are permitted. If an invalid status transition is attempted, the API will respond with an error.
 
 ## Testing
 
