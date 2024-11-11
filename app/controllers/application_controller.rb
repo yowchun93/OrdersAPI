@@ -17,10 +17,6 @@ class ApplicationController < ActionController::API
   end
 
   def valid_token?(token)
-    begin
-      JWT.decode(token, Rails.application.credentials.jwt_secret, true, { algorithm: 'HS256' })
-    rescue JWT::DecodeError
-      false
-    end
+    JwtToken.validate_token(token)
   end
 end

@@ -8,7 +8,7 @@ RSpec.describe OrdersController, type: :request do
       price: 99.99
     )
   end
-  let!(:valid_jwt) { generate_jwt(user_id: 1) }
+  let!(:valid_jwt) { JwtToken.generate_token({ exp: 1.day.from_now.to_i }) }
   let!(:random_jwt_token) { "random_token_that_fails" }
 
   describe 'Authorization' do
